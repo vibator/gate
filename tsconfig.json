@@ -1,0 +1,14 @@
+{
+  "extends": "./packages/gate/tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "lib": ["ES2023"],
+    "noEmit": true,
+    "esModuleInterop": true,
+    "types": ["node", "vitest/globals"],
+    "allowImportingTsExtensions": true
+  },
+  "include": ["packages/create-gate/src"]
+}

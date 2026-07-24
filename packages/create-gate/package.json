@@ -1,0 +1,44 @@
+{
+  "name": "@vibator/create-gate",
+  "version": "0.0.0",
+  "description": "Setup wizard that bootstraps the vibator gate in a JavaScript or TypeScript repository.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Josep Boix Requesens",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vibator/gate.git",
+    "directory": "packages/create-gate"
+  },
+  "bugs": {
+    "url": "https://github.com/vibator/gate/issues"
+  },
+  "homepage": "https://github.com/vibator/gate#readme",
+  "keywords": [
+    "create",
+    "init",
+    "wizard",
+    "quality",
+    "lint",
+    "vibator",
+    "coding-agents"
+  ],
+  "bin": {
+    "create-gate": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.11.0",
+    "diff": "^9.0.0"
+  }
+}

@@ -1,0 +1,51 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Mint the release bot token
+        id: bot-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+          token: ${{ steps.bot-token.outputs.token }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: ".nvmrc"
+
+      - name: Update npm (trusted publishing needs npm 11.5.1 or later)
+        run: npm install -g npm@^11.5.1
+
+      - name: Install dependencies
+        env:
+          CI: true
+          HUSKY: "0"
+        run: npm ci
+
+      - name: Verify the gates one last time
+        run: npm run verify
+
+      - name: Semantic Release (version commit + tag + Release + npm via OIDC)
+        env:
+          GITHUB_TOKEN: ${{ steps.bot-token.outputs.token }}
+        run: >-
+          npx --yes -p semantic-release@25 -p @semantic-release/git@11
+          semantic-release

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.5/schema.json",
+  "extends": ["./packages/gate/biome.base.json"],
+  "files": {
+    "ignoreUnknown": true,
+    "includes": ["**", "!node_modules", "!**/dist", "!coverage"]
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.test.*", "**/*.spec.*"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "noExcessiveCognitiveComplexity": "off",
+            "noExcessiveLinesPerFunction": "off"
+          },
+          "style": {
+            "noExcessiveLinesPerFile": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "packages/create-gate/src/cli.ts",
+        "packages/create-gate/src/wizard.ts"
+      ],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
+    }
+  ]
+}

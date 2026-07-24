@@ -1,0 +1,95 @@
+name: Quality
+
+on:
+  merge_group:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Install dependencies
+        env:
+          CI: true
+          HUSKY: "0"
+        run: |
+          npm ci
+
+      - name: Run Biome (format + lint)
+        run: |
+          npm run lint
+
+      - name: Check architecture boundaries
+        run: |
+          npm run arch
+
+      - name: Check for dead code and unused dependencies
+        run: |
+          npm run knip
+
+      - name: Build the workspaces
+        run: |
+          npm run build
+
+      - name: Run unit tests
+        run: |
+          npm run test
+
+      - name: Vibator
+        run: |
+          npx vibator
+
+      - name: Report Coverage
+        if: github.event_name == 'pull_request'
+        uses: davelosert/vitest-coverage-report-action@8b157684c6a6b259b97d45e72b44242865c0f6a5 # v2
+
+  commitlint:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Install dependencies
+        env:
+          CI: true
+          HUSKY: "0"
+        run: |
+          npm ci
+
+      - name: Lint commit messages (Conventional Commits drive releases)
+        run: |
+          npx commitlint \
+            --from "${{ github.event.pull_request.base.sha }}" \
+            --to "${{ github.event.pull_request.head.sha }}" --verbose

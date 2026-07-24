@@ -1,0 +1,44 @@
+{
+  "name": "vibator-gate-workspace",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Workspace for the vibator gate: shared presets and the setup wizard.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Josep Boix Requesens",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vibator/gate.git"
+  },
+  "workspaces": [
+    "packages/gate",
+    "packages/create-gate"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "arch": "depcruise packages/create-gate/src --config .dependency-cruiser.cjs",
+    "build": "npm run build --workspaces --if-present",
+    "format": "biome format --write",
+    "knip": "knip",
+    "lint": "biome check",
+    "prepare": "husky",
+    "test": "vitest run --coverage",
+    "verify": "npm run lint && npm run arch && npm run knip && npm run build && npm run test && npm run vibator",
+    "vibator": "vibator"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.5",
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
+    "@types/node": "^22.20.1",
+    "@vitest/coverage-v8": "^4.1.10",
+    "dependency-cruiser": "^18.1.0",
+    "husky": "^9.1.7",
+    "knip": "^6.29.0",
+    "typescript": "^6.0.3",
+    "vibator": "^0.2.0",
+    "vitest": "^4.1.10"
+  }
+}

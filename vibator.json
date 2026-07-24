@@ -1,0 +1,44 @@
+{
+  "$schema": "./node_modules/vibator/schema.json",
+  "extends": ["./packages/gate/vibator.json"],
+  "rules": {
+    "banned-patterns": {
+      "severity": "error",
+      "include": ["**/*.{ts,md,yml,cjs,mjs,json}"],
+      "exclude": ["package-lock.json"],
+      "options": {
+        "patterns": [
+          {
+            "pattern": "\\u2014",
+            "message": "Em-dash in text",
+            "expected": "Plain punctuation: comma, colon, semicolon or parentheses (see CONTRIBUTING.md, Style)",
+            "fix": "Rewrite the sentence without the em-dash"
+          }
+        ]
+      }
+    },
+    "env-example-sync": "off",
+    "tsdoc-coverage": {
+      "include": ["packages/create-gate/src/**/*.ts"],
+      "exclude": ["**/*.test.ts"]
+    },
+    "meaningful-names": {
+      "include": ["packages/create-gate/src/**/*.ts"],
+      "exclude": ["**/*.test.ts"]
+    },
+    "prefer-array-methods": {
+      "severity": "error",
+      "include": ["packages/create-gate/src/**/*.ts"],
+      "exclude": ["**/*.test.ts"]
+    },
+    "no-deprecated-apis": {
+      "include": ["packages/create-gate/src/**/*.ts"],
+      "options": {
+        "projects": ["packages/create-gate/tsconfig.json"]
+      }
+    }
+  },
+  "guidelines": {
+    "CLAUDE.md": ["meaningful-names", "tsdoc-coverage"]
+  }
+}

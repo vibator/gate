@@ -1,0 +1,16 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "workspaces": {
+    ".": {
+      "entry": []
+    },
+    "packages/gate": {
+      "entry": [],
+      "ignoreDependencies": ["dependency-cruiser"]
+    },
+    "packages/create-gate": {
+      "entry": ["src/cli.ts"],
+      "project": ["src/**/*.ts"]
+    }
+  }
+}
