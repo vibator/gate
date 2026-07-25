@@ -1,5 +1,5 @@
 {
-  "$schema": "https://unpkg.com/vibator@0.2.0/schema.json",
+  "$schema": "https://unpkg.com/vibator@1.0.0/schema.json",
   "rules": {
     "no-conflict-markers": "error",
     "max-file-size": {
