@@ -1,0 +1,61 @@
+name: 🐛 Bug Report
+description: Report a possible bug or regression
+title: "🐛 <TITLE>"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a bug. Please provide a clear and concise
+        description of what the bug is; reports that cannot be reproduced
+        take much longer to fix.
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment information
+      description: >
+        Paste the versions of `@vibator/gate` and `@vibator/create-gate`
+        involved, the output of `node --version`, your package manager and
+        your operating system. If the bug involves a generated or extended
+        config, include the relevant file. Review the output for anything
+        sensitive before posting.
+      value: |
+        <details>
+
+        ```
+        Paste output here
+        ```
+
+        </details>
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: What happened?
+      description: >
+        Provide the steps that reproduce the issue, including the command you
+        ran (for example `npm create @vibator/gate`) and a minimal repo
+        layout or snippet that triggers it. The more complete the steps, the
+        quicker the report can be triaged and addressed.
+      placeholder: |
+        1.
+        2.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-result
+    attributes:
+      label: Expected result
+      description: Describe what you expected to happen.
+      placeholder: The wizard should skip this file instead of rewriting it.
+    validations:
+      required: true
+  - type: checkboxes
+    id: coc
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/vibator/gate/blob/main/CODE_OF_CONDUCT.md)
+      options:
+        - label: I agree to follow Vibator's Code of Conduct
+          required: true
