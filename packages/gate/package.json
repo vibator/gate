@@ -1,6 +1,6 @@
 {
   "name": "@vibator/gate",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Shared presets for Biome, dependency-cruiser, vibator, and TypeScript. Projects extend them from thin configs.",
   "type": "module",
   "license": "MIT",

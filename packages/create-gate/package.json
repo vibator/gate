@@ -1,6 +1,6 @@
 {
   "name": "@vibator/create-gate",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Setup wizard that bootstraps the vibator gate in a JavaScript or TypeScript repository.",
   "type": "module",
   "license": "MIT",
