@@ -1,8 +1,7 @@
 {
   "name": "@vibator/create-gate",
-  "version": "0.1.0",
-  "description": "Setup wizard that bootstraps the vibator gate in a JavaScript or TypeScript repository.",
-  "type": "module",
+  "version": "1.0.0",
+  "description": "The wizard that sets the vibator gate up in a project",
   "license": "MIT",
   "author": "Josep Boix Requesens",
   "repository": {
@@ -14,31 +13,57 @@
     "url": "https://github.com/vibator/gate/issues"
   },
   "homepage": "https://vibator.dev",
-  "keywords": [
-    "create",
-    "init",
-    "wizard",
-    "quality",
-    "lint",
-    "vibator",
-    "coding-agents"
-  ],
+  "type": "module",
   "bin": {
-    "create-gate": "./dist/cli.js"
-  },
-  "files": [
-    "dist",
-    "README.md"
-  ],
-  "engines": {
-    "node": ">=22"
+    "create-gate": "./src/cli.ts"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
-    "prepublishOnly": "npm run build"
+    "release:ci": "semantic-release"
   },
+  "files": [
+    "src",
+    "!src/**/*.test.ts",
+    "docs",
+    "README.md"
+  ],
   "dependencies": {
-    "@clack/prompts": "^1.7.0",
-    "diff": "^9.0.0"
+    "@clack/prompts": "^1.7.0"
+  },
+  "peerDependencies": {
+    "@vibator/biome": "^1.0.0",
+    "@vibator/depcruise": "^1.0.0",
+    "@vibator/gate": "^1.0.0",
+    "@vibator/knip": "^1.0.0",
+    "@vibator/recommended": "^1.0.0",
+    "vibator": "^2.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@vibator/biome": {
+      "optional": true
+    },
+    "@vibator/depcruise": {
+      "optional": true
+    },
+    "@vibator/gate": {
+      "optional": true
+    },
+    "@vibator/knip": {
+      "optional": true
+    },
+    "@vibator/recommended": {
+      "optional": true
+    },
+    "vibator": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@semantic-release/git": "^11.0.0",
+    "semantic-release": "^25.0.2",
+    "semantic-release-monorepo": "^8.0.2",
+    "vitest": "^4.1.10"
+  },
+  "engines": {
+    "node": ">=24"
   }
 }

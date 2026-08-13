@@ -1,16 +1,25 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignoreWorkspaces": ["packages/gate"],
   "workspaces": {
     ".": {
-      "entry": []
+      "project": ["*.ts"],
+      "ignoreDependencies": ["vibator"]
     },
-    "packages/gate": {
-      "entry": [],
-      "ignoreDependencies": ["dependency-cruiser"]
+    "packages/*": {
+      "entry": ["src/rules/*.ts"],
+      "project": ["src/**/*.ts"],
+      "ignoreDependencies": [
+        "@semantic-release/git",
+        "semantic-release-monorepo"
+      ]
     },
     "packages/create-gate": {
-      "entry": ["src/cli.ts"],
-      "project": ["src/**/*.ts"]
+      "project": ["src/**/*.ts"],
+      "ignoreDependencies": [
+        "@semantic-release/git",
+        "semantic-release-monorepo"
+      ]
     }
   }
 }

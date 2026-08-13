@@ -1,190 +1,182 @@
 /**
- * The data model the wizard passes between detection, decision and apply.
+ * Turns the wizard answers into the files and dependencies to write.
  *
  * @packageDocumentation
  */
+import { createRequire } from "node:module";
 
-/** The npm-compatible package managers the wizard can drive. */
-export type PackageManager = "npm" | "pnpm" | "yarn" | "bun";
-
-/** What to do about the lint and vibator configurations. */
-export type ConfigAction = "create" | "extend" | "skip";
-
-/** Paths of the relevant configurations found in the repository. */
-export interface FoundConfigs {
-  /** Biome configuration, when present. */
-  biome?: string;
-  /** ESLint configuration, when present. */
-  eslint?: string;
-  /** Prettier configuration, when present. */
-  prettier?: string;
-  /** knip configuration, when present. */
-  knip?: string;
-  /** dependency-cruiser configuration, when present. */
-  depcruise?: string;
-  /** vibator configuration, when present. */
-  vibator?: string;
-  /** TypeScript configuration, when present. */
-  tsconfig?: string;
-  /** commitlint configuration, when present. */
-  commitlint?: string;
-}
-
-/** Which git hook managers the repository already uses. */
-export interface FoundHookManagers {
-  /** Whether a `.husky/` directory exists. */
-  husky: boolean;
-  /** Whether lefthook is configured or installed. */
-  lefthook: boolean;
-  /** Whether simple-git-hooks is configured or installed. */
-  simpleGitHooks: boolean;
-}
-
-/** Everything detection learned about the target repository. */
-export interface Snapshot {
-  /** Absolute path of the repository root. */
-  root: string;
-  /** Whether a package.json exists; nothing works without one. */
-  hasPackageJson: boolean;
-  /** Whether the root is a git repository. */
-  isGitRepository: boolean;
-  /** The package manager the repository uses. */
-  packageManager: PackageManager;
-  /** Whether the project uses TypeScript (tsconfig or dependency). */
-  usesTypeScript: boolean;
-  /** Whether tsconfig.json is plain JSON with no `extends` of its own. */
-  tsconfigExtendable: boolean;
-  /** Whether package.json declares workspaces. */
-  hasWorkspaces: boolean;
-  /** Whether a `src/` directory exists. */
-  hasSourceDirectory: boolean;
-  /** The npm scripts already declared. */
-  scripts: Record<string, string>;
-  /** Package names already installed as dependencies of any kind. */
-  installedPackages: string[];
-  /** The configurations found. */
-  configs: FoundConfigs;
-  /** The hook managers found. */
-  hooks: FoundHookManagers;
-  /** Whether `.github/workflows/quality.yml` already exists. */
-  hasQualityWorkflow: boolean;
-  /** The agent instructions file, `AGENTS.md` before `CLAUDE.md`. */
-  agentsFile?: string;
-}
-
-/** One choice per decision point, resolved from flags, prompts or defaults. */
-export interface Answers {
-  /** What to do about Biome. */
-  lint: ConfigAction;
-  /** Whether to include knip. */
+/** The gates the wizard offers. */
+export interface ToolChoices {
+  /** The `biome` rule with the gate's Biome preset. */
+  biome: boolean;
+  /** The `knip` rule with zero-config discovery. */
   knip: boolean;
-  /** Whether to create a dependency-cruiser config. */
+  /** The `depcruise` rule with the gate's universal ruleset. */
   depcruise: boolean;
-  /** What to do about vibator. */
-  vibator: ConfigAction;
-  /** Whether to point tsconfig.json at the gate's strict base. */
+  /** The recommended general-purpose rules. */
+  recommended: boolean;
+}
+
+/** Everything the wizard asked. */
+export interface Answers {
+  /** The chosen gates. */
+  tools: ToolChoices;
+  /** Whether to create a tsconfig.json extending the gate preset. */
   tsconfig: boolean;
-  /** Whether to wire git hooks. */
-  hooks: boolean;
-  /** Whether to set up commitlint. */
-  commitlint: boolean;
-  /** Whether to add the quality CI workflow. */
-  ci: boolean;
-  /** Whether to install agent guidance (skill and AGENTS.md section). */
-  agents: boolean;
 }
 
-/** A new file the wizard will create. Never overwrites an existing one. */
-interface FileCreation {
-  /** Repo-relative path. */
+/** One file the wizard writes. */
+interface PlannedFile {
+  /** The path relative to the project root. */
   path: string;
-  /** Full contents. */
-  contents: string;
+  /** The full file content. */
+  content: string;
 }
 
-/** A surgical change to an existing file. */
-export interface FileChange {
-  /** What to do: add an extends entry, or append missing lines. */
-  kind: "prepend-extends" | "tsconfig-extends" | "append-lines";
-  /** Repo-relative file to change. */
-  path: string;
-  /** The package export to point at, for the extends kinds. */
-  specifier?: string;
-  /** Lines to add when absent, for `append-lines`. */
-  lines?: string[];
-  /**
-   * For `append-lines`: skip the whole append when the file already
-   * contains this marker. Keeps prose sections whole across wizard
-   * versions, where per-line checks would interleave old and new wording.
-   */
-  guard?: string;
-}
-
-/** A change the wizard offers after applying, run only with consent. */
-export type FollowUp =
-  | {
-      /** A shell command to run. */
-      kind: "command";
-      /** Why running it is worth it. */
-      reason: string;
-      /** The exact shell command. */
-      command: string;
-    }
-  | {
-      /** Replacing an npm script the apply step refused to overwrite. */
-      kind: "replace-script";
-      /** Why replacing it is worth it. */
-      reason: string;
-      /** The script name. */
-      name: string;
-      /** The command the script would become. */
-      command: string;
-    };
-
-/** Everything the wizard intends to do, shown before anything happens. */
+/** The files and dependencies one wizard run produces. */
 export interface Plan {
-  /** The package manager that will run the installs. */
-  packageManager: PackageManager;
-  /** devDependencies to install, `latest` of each. */
-  installs: string[];
-  /** New files. */
-  creations: FileCreation[];
-  /** Changes to existing files. */
-  changes: FileChange[];
-  /** npm scripts to add; existing scripts are never overwritten. */
-  scripts: Record<string, string>;
-  /** Changes offered after apply, run only with explicit consent. */
-  followUps: FollowUp[];
-  /** Decisions taken and things left alone, stated for the user. */
-  notes: string[];
+  /** The files to write, in order. */
+  files: PlannedFile[];
+  /** The devDependencies the project needs. */
+  devDependencies: Record<string, string>;
 }
 
-/** One unit of wizard work; every key maps to one plan builder. */
-export type StepKey =
-  | "lint"
-  | "knip"
-  | "depcruise"
-  | "tsconfig"
-  | "vibator"
-  | "hooks"
-  | "commitlint"
-  | "ci"
-  | "scripts"
-  | "agents";
+/** The version range written for each installed package, declared as the
+ * optional peerDependencies of this package's own manifest. */
+const VERSIONS: Record<string, string> = (
+  createRequire(import.meta.url)("../package.json") as {
+    peerDependencies: Record<string, string>;
+  }
+).peerDependencies;
 
-/** The step order: vibator closes the tools, the surroundings follow. */
-export const STEP_ORDER: StepKey[] = [
-  "lint",
-  "knip",
-  "depcruise",
-  "tsconfig",
-  "vibator",
-  "hooks",
-  "commitlint",
-  "ci",
-  "scripts",
-  "agents",
-];
+/** The recommended rules with the gate's default scopes. */
+const RECOMMENDED_RULES: Record<string, object> = {
+  "no-conflict-markers": {},
+  "no-dead-doc-links": {},
+  "tsdoc-coverage": { options: { include: ["src/**/*.{ts,tsx}"] } },
+  "meaningful-names": { options: { include: ["src/**/*.{ts,tsx,js,jsx}"] } },
+  "prefer-array-methods": {
+    options: { include: ["src/**/*.{ts,tsx,js,jsx}"] },
+  },
+  "no-deprecated-apis": { options: { include: ["src/**/*.{ts,tsx}"] } },
+  "env-example-sync": { options: { include: ["src/**/*.{ts,tsx,js,jsx}"] } },
+};
 
-/** The npm package every gated repository depends on. */
-export const GATE_PACKAGE = "@vibator/gate";
+/**
+ * Serializes a configuration object to a JSON file content.
+ *
+ * @param value - The configuration.
+ * @returns The formatted JSON with a trailing newline.
+ */
+function toJson(value: object): string {
+  return `${JSON.stringify(value, null, 2)}\n`;
+}
+
+/**
+ * The rules section of the generated `.vibator.json`.
+ *
+ * @param tools - The chosen gates.
+ * @returns The rules keyed by rule id.
+ */
+function ruleEntries(tools: ToolChoices): Record<string, object> {
+  const rules: Record<string, object> = {};
+  if (tools.biome) {
+    rules.biome = {
+      options: { configPath: ".vibator/biome.json", exclude: [] },
+    };
+  }
+  if (tools.knip) rules.knip = {};
+  if (tools.depcruise) {
+    rules.depcruise = { options: { configPath: ".vibator/depcruise.cjs" } };
+  }
+  if (tools.recommended) Object.assign(rules, RECOMMENDED_RULES);
+  return rules;
+}
+
+/**
+ * The generated `.vibator.json` content.
+ *
+ * @param tools - The chosen gates.
+ * @returns The file content.
+ */
+function vibatorConfig(tools: ToolChoices): string {
+  const names = ["biome", "knip", "depcruise", "recommended"] as const;
+  const plugins = names
+    .filter((name) => tools[name])
+    .map((name) => `@vibator/${name}`);
+  return toJson({
+    $schema: "node_modules/vibator/schema.json",
+    plugins,
+    rules: ruleEntries(tools),
+  });
+}
+
+/** The generated `.vibator/depcruise.cjs` content. */
+const DEPCRUISE_THIN = `/**
+ * Dependency rules for this project. Layer boundaries go under \`forbidden\`;
+ * the gate preset carries the universal rules.
+ */
+module.exports = {
+  extends: "@vibator/gate/depcruise",
+};
+`;
+
+/**
+ * The configuration files the chosen gates need.
+ *
+ * @param answers - The wizard answers.
+ * @returns The files to write, `.vibator.json` first.
+ */
+function plannedFiles(answers: Answers): PlannedFile[] {
+  const files: PlannedFile[] = [
+    { path: ".vibator.json", content: vibatorConfig(answers.tools) },
+  ];
+  if (answers.tools.biome) {
+    files.push({
+      path: ".vibator/biome.json",
+      content: toJson({ extends: ["@vibator/gate/biome"] }),
+    });
+  }
+  if (answers.tools.depcruise) {
+    files.push({ path: ".vibator/depcruise.cjs", content: DEPCRUISE_THIN });
+  }
+  if (answers.tsconfig) {
+    files.push({
+      path: "tsconfig.json",
+      content: toJson({ extends: "@vibator/gate/tsconfig" }),
+    });
+  }
+  return files;
+}
+
+/**
+ * The devDependencies the chosen gates need: vibator, the gate when one of
+ * its presets is referenced, and one plugin per chosen gate.
+ *
+ * @param answers - The wizard answers.
+ * @returns The dependencies keyed by package name.
+ */
+function devDependencies(answers: Answers): Record<string, string> {
+  const { tools } = answers;
+  const names = ["vibator"];
+  if (tools.biome || tools.depcruise || answers.tsconfig) {
+    names.push("@vibator/gate");
+  }
+  for (const name of ["biome", "knip", "depcruise", "recommended"] as const) {
+    if (tools[name]) names.push(`@vibator/${name}`);
+  }
+  return Object.fromEntries(names.map((name) => [name, VERSIONS[name] ?? ""]));
+}
+
+/**
+ * Turns the wizard answers into the plan to apply.
+ *
+ * @param answers - The wizard answers.
+ * @returns The files and dependencies to write.
+ */
+export function plan(answers: Answers): Plan {
+  return {
+    files: plannedFiles(answers),
+    devDependencies: devDependencies(answers),
+  };
+}

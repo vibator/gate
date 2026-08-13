@@ -1,2 +1,1 @@
 npx biome check --staged --no-errors-on-unmatched
-npx vibator --staged --only no-conflict-markers,max-file-size,max-lines,no-dead-doc-links,banned-patterns

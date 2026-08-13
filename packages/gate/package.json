@@ -1,8 +1,7 @@
 {
   "name": "@vibator/gate",
-  "version": "0.1.0",
-  "description": "Shared presets for Biome, dependency-cruiser, vibator, and TypeScript. Projects extend them from thin configs.",
-  "type": "module",
+  "version": "1.0.0",
+  "description": "The shared tool presets of the vibator gate: Biome, dependency-cruiser, and TypeScript configurations projects extend",
   "license": "MIT",
   "author": "Josep Boix Requesens",
   "repository": {
@@ -14,55 +13,29 @@
     "url": "https://github.com/vibator/gate/issues"
   },
   "homepage": "https://vibator.dev",
-  "keywords": [
-    "quality",
-    "lint",
-    "config",
-    "preset",
-    "biome",
-    "dependency-cruiser",
-    "vibator",
-    "coding-agents"
-  ],
+  "type": "module",
   "exports": {
     "./biome": "./biome.base.json",
     "./depcruise": "./depcruise.cjs",
-    "./vibator": "./vibator.json",
     "./tsconfig": "./tsconfig.json",
-    "./docs/*": "./docs/*",
-    "./skills/*": "./skills/*",
     "./package.json": "./package.json"
+  },
+  "scripts": {
+    "release:ci": "semantic-release"
   },
   "files": [
     "biome.base.json",
     "depcruise.cjs",
-    "vibator.json",
     "tsconfig.json",
     "docs",
-    "skills",
     "README.md"
   ],
+  "devDependencies": {
+    "@semantic-release/git": "^11.0.0",
+    "semantic-release": "^25.0.2",
+    "semantic-release-monorepo": "^8.0.2"
+  },
   "engines": {
-    "node": ">=22"
-  },
-  "peerDependencies": {
-    "@biomejs/biome": ">=2",
-    "dependency-cruiser": ">=16",
-    "typescript": ">=5.4 <7",
-    "vibator": ">=1.0.0"
-  },
-  "peerDependenciesMeta": {
-    "@biomejs/biome": {
-      "optional": true
-    },
-    "dependency-cruiser": {
-      "optional": true
-    },
-    "typescript": {
-      "optional": true
-    },
-    "vibator": {
-      "optional": true
-    }
+    "node": ">=24"
   }
 }

@@ -36,3 +36,6 @@ yarn-error.log*
 .vscode-test
 .vscode
 .history
+
+# Agents
+.claude

@@ -31,9 +31,6 @@ jobs:
         with:
           node-version-file: ".nvmrc"
 
-      - name: Update npm (trusted publishing needs npm 11.5.1 or later)
-        run: npm install -g npm@^11.5.1
-
       - name: Install dependencies
         env:
           CI: true
@@ -43,9 +40,7 @@ jobs:
       - name: Verify the gates one last time
         run: npm run verify
 
-      - name: Semantic Release (version commit + tag + Release + npm via OIDC)
+      - name: Semantic Release per package (version commit + tag + Release + npm via OIDC)
         env:
           GITHUB_TOKEN: ${{ steps.bot-token.outputs.token }}
-        run: >-
-          npx --yes -p semantic-release@25 -p @semantic-release/git@11
-          semantic-release
+        run: npm run release:ci --workspaces

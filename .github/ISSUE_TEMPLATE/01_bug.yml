@@ -14,11 +14,13 @@ body:
     attributes:
       label: Environment information
       description: >
-        Paste the versions of `@vibator/gate` and `@vibator/create-gate`
-        involved, the output of `node --version`, your package manager and
-        your operating system. If the bug involves a generated or extended
-        config, include the relevant file. Review the output for anything
-        sensitive before posting.
+        Paste the output of `npx vibator --version`, `node --version`, the
+        version of the package involved (`@vibator/biome`, `@vibator/knip`,
+        `@vibator/depcruise`, `@vibator/recommended`, `@vibator/gate`, or
+        `@vibator/create-gate`), and your operating system. If the bug
+        involves your configuration, include the relevant part of
+        `.vibator.json` and the tool's own configuration file. Review the
+        output for anything sensitive before posting.
       value: |
         <details>
 
@@ -35,9 +37,8 @@ body:
       label: What happened?
       description: >
         Provide the steps that reproduce the issue, including the command you
-        ran (for example `npm create @vibator/gate`) and a minimal repo
-        layout or snippet that triggers it. The more complete the steps, the
-        quicker the report can be triaged and addressed.
+        ran and a minimal file or snippet that triggers it. The more complete
+        the steps, the quicker the report can be triaged and addressed.
       placeholder: |
         1.
         2.
@@ -48,14 +49,14 @@ body:
     attributes:
       label: Expected result
       description: Describe what you expected to happen.
-      placeholder: The wizard should skip this file instead of rewriting it.
+      placeholder: It should not report a finding on this line.
     validations:
       required: true
   - type: checkboxes
     id: coc
     attributes:
       label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/vibator/gate/blob/main/CODE_OF_CONDUCT.md)
+      description: By submitting this issue, you agree to follow our Code of Conduct (CODE_OF_CONDUCT.md at the repository root)
       options:
-        - label: I agree to follow Vibator's Code of Conduct
+        - label: I agree to follow the Code of Conduct
           required: true

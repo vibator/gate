@@ -2,8 +2,8 @@
 
 ## Supported Versions
 
-At any given time we support the _latest_ version of the vibator gate
-packages (as reflected in the _main_ branch) with security updates.
+At any given time we support the _latest_ version of these plugins (as
+reflected in the _main_ branch) with security updates.
 
 ## Reporting a Vulnerability
 
@@ -15,6 +15,5 @@ We appreciate any responsible disclosure of vulnerabilities that might impact
 the integrity of our users and their projects. We do not offer bounties, but
 if you wish we will credit you in the release notes.
 
-Before reporting, make sure you are on the latest versions of
-`@vibator/gate` and `@vibator/create-gate` and a supported Node version
-(22 or later).
+Before reporting, make sure you are on the latest version of the plugins and a
+supported Node version (24 or later).

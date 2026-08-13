@@ -1,0 +1,43 @@
+{
+  "name": "@vibator/knip",
+  "version": "1.0.0",
+  "description": "Vibator plugin orchestrating Knip through its programmatic API",
+  "license": "MIT",
+  "author": "Josep Boix Requesens",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vibator/gate.git",
+    "directory": "packages/knip"
+  },
+  "bugs": {
+    "url": "https://github.com/vibator/gate/issues"
+  },
+  "homepage": "https://vibator.dev",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "release:ci": "semantic-release"
+  },
+  "files": [
+    "src",
+    "!src/**/*.test.ts",
+    "docs",
+    "README.md"
+  ],
+  "dependencies": {
+    "knip": "^6.29.0",
+    "zod": "^4.4.3"
+  },
+  "peerDependencies": {
+    "vibator": "^2.1.0"
+  },
+  "devDependencies": {
+    "@semantic-release/git": "^11.0.0",
+    "semantic-release": "^25.0.2",
+    "semantic-release-monorepo": "^8.0.2",
+    "vitest": "^4.1.10"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

@@ -47,17 +47,13 @@ jobs:
         run: |
           npm run knip
 
-      - name: Build the workspaces
+      - name: Typecheck
         run: |
-          npm run build
+          npm run typecheck
 
       - name: Run unit tests
         run: |
           npm run test
-
-      - name: Vibator
-        run: |
-          npx vibator
 
       - name: Report Coverage
         if: github.event_name == 'pull_request'
@@ -88,7 +84,7 @@ jobs:
         run: |
           npm ci
 
-      - name: Lint commit messages (Conventional Commits drive releases)
+      - name: Lint commit messages (Conventional Commits)
         run: |
           npx commitlint \
             --from "${{ github.event.pull_request.base.sha }}" \

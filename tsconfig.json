@@ -1,14 +1,16 @@
 {
-  "extends": "./packages/gate/tsconfig.json",
   "compilerOptions": {
-    "target": "ES2023",
+    "target": "es2023",
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "lib": ["ES2023"],
-    "noEmit": true,
-    "esModuleInterop": true,
+    "lib": ["es2023"],
     "types": ["node", "vitest/globals"],
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true
   },
-  "include": ["packages/create-gate/src"]
+  "include": ["packages/*/src", "vitest.config.ts"]
 }

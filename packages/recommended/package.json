@@ -1,0 +1,43 @@
+{
+  "name": "@vibator/recommended",
+  "version": "1.0.0",
+  "description": "Vibator plugin carrying the recommended general-purpose rules",
+  "license": "MIT",
+  "author": "Josep Boix Requesens",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vibator/gate.git",
+    "directory": "packages/recommended"
+  },
+  "bugs": {
+    "url": "https://github.com/vibator/gate/issues"
+  },
+  "homepage": "https://vibator.dev",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "release:ci": "semantic-release"
+  },
+  "files": [
+    "src",
+    "!src/**/*.test.ts",
+    "docs",
+    "README.md"
+  ],
+  "dependencies": {
+    "zod": "^4.4.3"
+  },
+  "peerDependencies": {
+    "typescript": ">=5.4 <7",
+    "vibator": "^2.1.0"
+  },
+  "devDependencies": {
+    "@semantic-release/git": "^11.0.0",
+    "semantic-release": "^25.0.2",
+    "semantic-release-monorepo": "^8.0.2",
+    "vitest": "^4.1.10"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

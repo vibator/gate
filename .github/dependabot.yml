@@ -18,8 +18,17 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    commit-message:
+      prefix: "fix"
+      prefix-development: "chore"
+      include: "scope"
     groups:
-      node-dependencies:
+      tools:
+        dependency-type: "production"
+        patterns: [ "*" ]
+        update-types: [ "minor", "patch" ]
+      dev-dependencies:
+        dependency-type: "development"
         patterns: [ "*" ]
         update-types: [ "minor", "patch" ]
     ignore:
@@ -27,7 +36,7 @@ updates:
       # the supported runtime floor moves.
       - dependency-name: "@types/node"
         update-types: [ "version-update:semver-major" ]
-      # Vibator's type-aware rules need the JS compiler API, which the
-      # TypeScript 7 native compiler drops. Stay on 6.x until vibator moves.
+      # vibator caps its typescript peer range below 7; move the major here
+      # in step with the framework.
       - dependency-name: "typescript"
         update-types: [ "version-update:semver-major" ]

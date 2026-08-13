@@ -1,36 +1,31 @@
 # @vibator/create-gate
 
-The setup wizard for the vibator gate. Run it in a JavaScript or
-TypeScript repository:
+The wizard that sets the [vibator](https://github.com/vibator/vibator) gate
+up in a project.
 
 ```sh
-npm create @vibator/gate
+npx @vibator/create-gate
 ```
 
-It walks numbered steps, one per tool. Each step shows what the tool is
-for, the exact changes as a diff, and the warnings. Say yes and the step
-is applied. Follow-ups such as `biome migrate` or replacing a taken npm
-script run only if you say yes to them too.
+It asks which gates the project wants (Biome, Knip, dependency-cruiser, the
+recommended rules) and writes:
 
-It never overwrites or deletes anything. Existing configs get an
-`extends` entry pointing at [`@vibator/gate`](../gate), existing hooks get
-the missing lines, other choices stay yours. Re-running is safe: it asks
-again and fixes only what is missing.
+- `.vibator.json` with the chosen plugins and rules.
+- `.vibator/biome.json` and `.vibator/depcruise.cjs`, thin configurations
+  extending the [`@vibator/gate`](../gate) presets. Project rules go in
+  these files, in the tool's own language.
+- `tsconfig.json` extending the gate preset, when asked and none exists.
+- The devDependencies in `package.json`. The wizard edits the manifest and
+  leaves the install to your package manager.
 
-## Without a terminal
+Existing files are never overwritten: the wizard refuses to run over a
+`.vibator.json` and leaves an existing `tsconfig.json` alone.
 
-Every prompt has a flag, so scripts can run it end to end:
+## Design
 
-```sh
-npm create @vibator/gate -- --defaults              # accept recommendations
-npm create @vibator/gate -- --defaults --dry-run    # JSON plan, no changes
-npm create @vibator/gate -- --lint=extend --knip=yes --depcruise=yes \
-  --vibator=create --tsconfig=yes --hooks=yes --commitlint=yes \
-  --ci=skip --agents=yes --migrations=yes
-```
+The design doc under [docs/design/](./docs/design/) is the reference and
+the contract: the prompts, the generated files, and the guards.
 
-Without a terminal and without enough flags it exits with code 2 and
-prints the way out. It never hangs. After an interactive session it
-prints the flags-only command that repeats the same choices.
+## License
 
-`--help` lists every flag.
+[MIT](../../LICENSE)

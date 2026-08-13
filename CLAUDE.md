@@ -1,81 +1,81 @@
-# vibator gate agent guide
+# vibator-plugins
 
-Read this fully before writing code here.
+An npm workspace of [vibator](https://github.com/vibator/vibator) plugins.
+Each plugin drives another linter through its JavaScript API and maps its
+findings to vibator diagnostics.
 
-## What this is
+Read each package's `docs/design/` before changing behavior. Those files are
+the contract: the subnamespace a package registers and the rule it defines.
+Update the design doc in the same change as the code.
 
-A two-package npm workspace that brings any JavaScript or TypeScript
-repository onto a strict shared quality gate built from Biome, knip,
-dependency-cruiser and vibator.
+## Layout
 
-- `packages/gate` (`@vibator/gate`): pure configuration data. Strict presets
-  for Biome, dependency-cruiser, vibator and TypeScript, plus
-  the guideline docs and agent skills that go with them. Zero runtime
-  dependencies; consumers' thin configs extend these files through the
-  package `exports`.
-- `packages/create-gate` (`@vibator/create-gate`): the wizard behind
-  `npm create @vibator/gate`. Detection plus pointers plus installs; it
-  contains no configuration content, so it does not go stale.
-
-Both publish under the `@vibator` scope and release in lockstep with one
-version.
-
-## Development
-
-```sh
-npm run verify    # the whole gate: lint, arch, knip, build, test, dogfood
-npm run build     # tsc per workspace (only create-gate emits)
-npm test          # vitest, from the root
-npx vibator       # the repo checks itself; vibator.json extends the preset
-npm run lint      # Biome: strict format + lint (complexity <= 8, fn <= 25 lines)
-npm run arch      # dependency-cruiser: the two packages stay independent
-npm run knip      # dead code and unused dependencies
+```
+packages/
+  biome/            the `biome` rule and the `vibator.biome` subnamespace,
+                    driving Biome through `@biomejs/js-api`.
+  knip/             the `knip` rule and the `vibator.knip` subnamespace,
+                    driving Knip through its programmatic API.
+  depcruise/        the `depcruise` rule and the `vibator.depcruise`
+                    subnamespace, driving dependency-cruiser through `cruise()`.
+  recommended/      the recommended general-purpose rules and the
+                    `vibator.recommended` subnamespace of TypeScript syntax
+                    analyses, driving the `typescript` module directly.
 ```
 
-Releases are semantic-release over Conventional Commits (`.releaserc.json`),
-cut manually via the Release workflow. Both package.json versions bump
-together; `fix:` and `feat:` release, and CI lints the messages.
+Each package follows the same two layers:
 
-## Design invariants
+```
+src/
+  namespace/        the subnamespace registered onto the shared `vibator`
+                    object. The only module that touches the tool's API.
+  rules/            the rule, written against `vibator` plus the subnamespace.
+  index.ts          imports both for their registration side effects and
+                    re-exports the namespace types.
+```
 
-Do not undo these without a deliberate decision.
+## Working on it
 
-- **The wizard contains no configuration content.** Standards live in
-  `@vibator/gate` and reach projects through `extends`; the wizard only
-  detects, asks, installs and writes thin pointers. Anything else forces a
-  wizard release for every standards change.
-- **Never overwrite, never delete.** An existing config gets an `extends`
-  entry offered; an existing hook gets a line appended; an existing tool
-  choice (lefthook, eslint) is respected or left alone. Re-running the
-  wizard is safe: every action skips what is already in place.
-- **No orchestration is imposed.** The gate suggests a plain `verify` npm
-  script and leaves chaining to the project. No runner, no wrapper, no
-  command rule. Integrators may use concurrently or anything else; pieces
-  must stay easy to add or remove one by one.
-- **Every prompt has a flag equivalent.** `--defaults` accepts every
-  recommendation, `--dry-run` prints the plan as JSON and changes nothing,
-  and a run without a TTY never hangs: it exits 2 printing the flag-based
-  command to use instead.
-- **Tools are installed as direct devDependencies** of the target repo, not
-  hidden behind this package: pnpm only links direct dependencies' bins, and
-  dependabot can only bump what it sees.
-- **`create-gate` never imports `@vibator/gate`.** It references the package
-  by name in what it writes. dependency-cruiser enforces this; coupling them
-  would chain the release cycles.
-- **Nothing here names a downstream project.** Presets stay generic: globs
-  like `src/**`, no product names, no assumptions about repo layout beyond
-  what the wizard detected.
+```sh
+npx vitest run                        # the tests
+npx tsc --noEmit                      # the types
+npm run verify                        # the whole gate
+```
 
-## Conventions
+Work test-first, one module at a time: write the test, run it red, write the
+code, run it green. Every function gets a test unless it is a trivial
+re-export.
 
-- TypeScript strict, ESM, Node 22 or later.
-- TSDoc on every declaration, with `@param` and `@returns`; enforced via
-  `tsdoc-coverage` in the repository's own vibator run.
-- Names carry meaning; no `data`, `res`, `tmp`.
-- Functions stay short (25 lines), files stay under 400 lines.
-- Everything with words is direct and plain: one job per sentence, no
-  em-dashes, no marketing. This covers docs, CLI output, findings, and
-  commit messages.
-- The presets in `packages/gate` are the product. Changing one changes every
-  downstream repository on its next dependabot bump; treat preset edits like
-  API changes and explain them in the commit body.
+## Invariants
+
+Do not undo these.
+
+- A tool is driven through its JavaScript API, never through a shell command.
+- The subnamespace is the only module that imports the tool. A rule reads
+  `vibator` and the subnamespace, nothing else.
+- Importing a module registers it: the namespace assigns itself onto
+  `vibator`, the rule registers through `defineRule`.
+- A broken tool configuration becomes a project-level diagnostic, not a crash.
+- The three diagnostic fields stay separate: `message`, `expected`, `fix`.
+- Every diagnostic honors `vibator.ignore` markers at file and line level.
+- The plugins ship erasable TypeScript source. Node 24 runs it directly;
+  there is no build step.
+- Tests build throwaway projects under `os.tmpdir()` with the workspace
+  `node_modules` linked. No test depends on files at the repository root.
+
+## Writing
+
+Documentation, comments, commit messages, and user-facing strings use direct
+language.
+
+- Write plain declarative sentences. State the fact, then at most one sentence of
+  why.
+- No em-dashes. Use commas, colons, parentheses, periods.
+- No rambling, aphorisms, or clever turns. No "X is what makes Y"; write the fact
+  or "Y because X".
+- No idioms or unusual verbs. Name things for what they are. No cute jargon.
+- One fact per bullet. Paragraphs of one to three short sentences.
+- Reference docs carry no essays. A one-line table entry is the documentation;
+  add a section only when asked.
+- TSDoc every function, private ones included, with complete `@param` and
+  `@returns`. Module headers are one line; no explanatory paragraphs.
