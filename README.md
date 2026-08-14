@@ -1,10 +1,8 @@
 # Vibator Gate
 
-<div align="center">
 [![Quality](https://github.com/vibator/gate/actions/workflows/quality.yml/badge.svg)](https://github.com/vibator/gate/actions/workflows/quality.yml)
 [![node](https://img.shields.io/node/v/@vibator/gate)](https://nodejs.org)
 [![license: MIT](https://img.shields.io/npm/l/@vibator/gate)](./LICENSE)
-</div>
 
 This repository contains a collection of ready-to-use plugins and presets for
 [vibator](https://github.com/vibator/vibator).
