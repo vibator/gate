@@ -27,9 +27,9 @@
     "@commitlint/config-conventional": "^21.2.0",
     "@types/node": "^26.1.2",
     "@vitest/coverage-v8": "^4.1.10",
-    "dependency-cruiser": "^18.1.0",
+    "dependency-cruiser": "^18.2.0",
     "husky": "^9.1.7",
-    "knip": "^6.29.0",
+    "knip": "^6.32.1",
     "typescript": "^6.0.3",
     "vibator": "^2.1.0",
     "vitest": "^4.1.10"
