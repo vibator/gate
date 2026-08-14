@@ -1,6 +1,6 @@
 {
   "name": "@vibator/create-gate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The wizard that sets the vibator gate up in a project",
   "license": "MIT",
   "author": "Josep Boix Requesens",
