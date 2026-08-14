@@ -51,6 +51,10 @@ jobs:
         run: |
           npm run typecheck
 
+      - name: Build the published output
+        run: |
+          npm run build
+
       - name: Run unit tests
         run: |
           npm run test

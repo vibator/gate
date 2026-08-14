@@ -1,17 +1,21 @@
 # @vibator/knip
 
 A [vibator](https://github.com/vibator/vibator) plugin that orchestrates
-[Knip](https://knip.dev) through its programmatic API, never through a shell
-command.
+[Knip](https://knip.dev) through its programmatic API.
 
 Loading the plugin registers the `knip` rule, which analyzes the workspace
 and maps each Knip issue to a vibator diagnostic, and the `vibator.knip`
-subnamespace, the gateway other rules command Knip through.
+subnamespace.
 
 ## Setup
 
+```shell
+npm install --save-dev @vibator/knip
+```
+
+Add it to your `.vibator.json` configuration:
+
 ```json
-// .vibator.json
 {
   "plugins": [
     "@vibator/knip"
@@ -28,13 +32,11 @@ subnamespace, the gateway other rules command Knip through.
 
 ## Options
 
-| Option       | Description                                                                                                                                                                              |
-|--------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Option       | Description                                                                                                                                                                                                                    |
+|--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `configPath` | Reference to a Knip configuration file: a `./` path from the project root or a `package:path` reference. When omitted, Knip discovers its own configuration (`knip.json`, `knip.ts`, the `knip` field in `package.json`, ...). |
 
-The rule takes no `include`/`exclude` globs: Knip analyzes the whole
-workspace because unused-ness is a global property. A `configPath` that names
-no file is reported as a project-level finding rather than crashing the run.
+The rule takes no `include`/`exclude` globs: discovery is delegate to knip.
 
 ## Scoping
 

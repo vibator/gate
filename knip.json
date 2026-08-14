@@ -7,7 +7,7 @@
       "ignoreDependencies": ["vibator"]
     },
     "packages/*": {
-      "entry": ["src/rules/*.ts"],
+      "entry": ["src/index.ts", "src/rules/*.ts"],
       "project": ["src/**/*.ts"],
       "ignoreDependencies": [
         "@semantic-release/git",
@@ -15,6 +15,7 @@
       ]
     },
     "packages/create-gate": {
+      "entry": ["src/cli.ts"],
       "project": ["src/**/*.ts"],
       "ignoreDependencies": [
         "@semantic-release/git",

@@ -1,29 +1,25 @@
 # @vibator/recommended
 
-A [vibator](https://github.com/vibator/vibator) plugin carrying the
-recommended general-purpose rules: checks that apply to almost any
-repository.
+A [vibator](https://github.com/vibator/vibator) plugin carrying a set of
+recommended general-purpose rules.
 
-Loading the plugin registers every rule in the table below. Each rule has
-its own id, so each is enabled, configured, and silenced independently.
+Loading the plugin registers every rule in the table below.
 
 ## Setup
 
+```shell
+npm install --save-dev @vibator/recommended
+```
+
+Add it to your `.vibator.json` configuration:
+
 ```json
-// .vibator.json
 {
   "plugins": [
     "@vibator/recommended"
-  ],
-  "rules": {
-    "no-conflict-markers": {}
-  }
+  ]
 }
 ```
-
-Every rule accepts the shared vibator `include` / `exclude` globs, and
-`vibator-ignore <rule-id>` / `vibator-ignore-file <rule-id>` markers are
-honored at line and file level.
 
 ## Rules
 
@@ -44,10 +40,7 @@ Each rule links to its guideline, the document shown with every finding.
 
 ## Design
 
-The design docs under [docs/design/](./docs/design/) are the reference and
-the contract: one per rule, covering its configuration, detection, and
-diagnostics, plus one for the `vibator.recommended` namespace the AST rules
-are written against.
+The design docs under [docs/design/](./docs/design/).
 
 ## License
 
