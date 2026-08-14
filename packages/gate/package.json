@@ -1,6 +1,6 @@
 {
   "name": "@vibator/gate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The shared tool presets of the vibator gate: Biome, dependency-cruiser, and TypeScript configurations projects extend",
   "license": "MIT",
   "author": "Josep Boix Requesens",
