@@ -1,6 +1,6 @@
 {
   "name": "@vibator/depcruise",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vibator plugin orchestrating dependency-cruiser through its JavaScript API",
   "license": "MIT",
   "author": "Josep Boix Requesens",
