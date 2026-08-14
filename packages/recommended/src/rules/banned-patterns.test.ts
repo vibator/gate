@@ -10,6 +10,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { run } from "vibator";
 import { afterAll, describe, expect, it } from "vitest";
+import "./banned-patterns.ts";
 
 /** The workspace node_modules, linked into each throwaway project. */
 const nodeModules = fileURLToPath(
@@ -30,7 +31,6 @@ export function fetchUsers(): Promise<unknown> {
 
 /** The configuration a throwaway project runs with. */
 const CONFIG = {
-  plugins: ["@vibator/recommended"],
   rules: {
     "banned-patterns": {
       severity: "error",

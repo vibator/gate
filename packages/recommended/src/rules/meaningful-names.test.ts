@@ -10,6 +10,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { run } from "vibator";
 import { afterAll, describe, expect, it } from "vitest";
+import "./meaningful-names.ts";
 
 /** The workspace node_modules, linked into each throwaway project. */
 const nodeModules = fileURLToPath(
@@ -28,7 +29,6 @@ export function parseQuote(data: string): number {
 
 /** The configuration a throwaway project runs with. */
 const CONFIG = {
-  plugins: ["@vibator/recommended"],
   rules: {
     "meaningful-names": {
       options: {

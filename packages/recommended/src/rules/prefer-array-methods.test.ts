@@ -10,6 +10,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { run } from "vibator";
 import { afterAll, describe, expect, it } from "vitest";
+import "./prefer-array-methods.ts";
 
 /** The workspace node_modules, linked into each throwaway project. */
 const nodeModules = fileURLToPath(
@@ -33,7 +34,6 @@ export function total(values: number[]): number {
 
 /** The configuration a throwaway project runs with. */
 const CONFIG = {
-  plugins: ["@vibator/recommended"],
   rules: {
     "prefer-array-methods": {
       options: {

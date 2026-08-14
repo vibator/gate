@@ -10,6 +10,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { run } from "vibator";
 import { afterAll, describe, expect, it } from "vitest";
+import "./depcruise.ts";
 
 /** The workspace node_modules, linked into each throwaway project. */
 const nodeModules = fileURLToPath(
@@ -47,7 +48,6 @@ function project(files: Record<string, string>): string {
  */
 function config(options: Record<string, unknown>): string {
   return JSON.stringify({
-    plugins: ["@vibator/depcruise"],
     rules: { depcruise: { options } },
   });
 }

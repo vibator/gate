@@ -10,6 +10,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { run } from "vibator";
 import { afterAll, describe, expect, it } from "vitest";
+import "./locale-parity.ts";
 
 /** The workspace node_modules, linked into each throwaway project. */
 const nodeModules = fileURLToPath(
@@ -38,7 +39,6 @@ const CATALAN = `{
 
 /** The configuration a throwaway project runs with. */
 const CONFIG = {
-  plugins: ["@vibator/recommended"],
   rules: {
     "locale-parity": {
       severity: "error",

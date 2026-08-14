@@ -14,13 +14,15 @@
   },
   "homepage": "https://vibator.dev",
   "type": "module",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "prepack": "npm run build",
     "release:ci": "semantic-release"
   },
   "files": [
-    "src",
-    "!src/**/*.test.ts",
+    "dist",
     "docs",
     "README.md"
   ],

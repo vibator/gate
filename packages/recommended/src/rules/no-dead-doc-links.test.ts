@@ -10,6 +10,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { run } from "vibator";
 import { afterAll, describe, expect, it } from "vitest";
+import "./no-dead-doc-links.ts";
 
 /** The workspace node_modules, linked into each throwaway project. */
 const nodeModules = fileURLToPath(
@@ -36,7 +37,6 @@ const DIAGRAM = `The guide links this file to prove a resolving link is not repo
 
 /** The configuration a throwaway project runs with. */
 const CONFIG = {
-  plugins: ["@vibator/recommended"],
   rules: {
     "no-dead-doc-links": {
       options: {

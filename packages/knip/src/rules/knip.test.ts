@@ -10,6 +10,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { run } from "vibator";
 import { afterAll, describe, expect, it } from "vitest";
+import "./knip.ts";
 
 /** The workspace node_modules, linked into each throwaway project. */
 const nodeModules = fileURLToPath(
@@ -67,7 +68,7 @@ describe("the knip rule", () => {
   it("maps Knip's issues to vibator diagnostics", async () => {
     const root = project({
       ...PROJECT_FILES,
-      ".vibator.json": '{"plugins":["@vibator/knip"],"rules":{"knip":{}}}',
+      ".vibator.json": '{"rules":{"knip":{}}}',
     });
     const { findings, exitCode } = await run({ root, only: ["knip"] });
 
@@ -94,7 +95,7 @@ describe("the knip rule", () => {
     const root = project({
       ...PROJECT_FILES,
       ".vibator.json":
-        '{"plugins":["@vibator/knip"],"rules":{"knip":{"options":{"configPath":"./missing-knip.json"}}}}',
+        '{"rules":{"knip":{"options":{"configPath":"./missing-knip.json"}}}}',
     });
     const { findings, exitCode } = await run({ root, only: ["knip"] });
 

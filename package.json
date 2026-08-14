@@ -12,6 +12,7 @@
     "node": ">=24"
   },
   "scripts": {
+    "build": "npm run build --workspaces --if-present",
     "lint": "biome check",
     "format": "biome format --write",
     "arch": "depcruise packages/*/src --config .dependency-cruiser.cjs",

@@ -39,6 +39,7 @@ src/
 ```sh
 npx vitest run                        # the tests
 npx tsc --noEmit                      # the types
+npm run build                         # the published output of every package
 npm run verify                        # the whole gate
 ```
 
@@ -58,10 +59,19 @@ Do not undo these.
 - A broken tool configuration becomes a project-level diagnostic, not a crash.
 - The three diagnostic fields stay separate: `message`, `expected`, `fix`.
 - Every diagnostic honors `vibator.ignore` markers at file and line level.
-- The plugins ship erasable TypeScript source. Node 24 runs it directly;
-  there is no build step.
+- The source stays erasable TypeScript, but the packages publish compiled
+  JavaScript from `dist/`. Node refuses to strip types under `node_modules`,
+  so a package that ships `.ts` entry points cannot be installed.
+- Every package builds with `tsc -p tsconfig.build.json`. The per-package
+  file sets only `outDir`, `rootDir`, `include`, and `exclude`; every other
+  setting lives in the root `tsconfig.build.json`. TypeScript resolves
+  relative paths against the config that declares them, so those four cannot
+  move to the root.
 - Tests build throwaway projects under `os.tmpdir()` with the workspace
   `node_modules` linked. No test depends on files at the repository root.
+  Linked packages resolve to their realpath outside `node_modules`, so tests
+  do not exercise the published layout. Verify packaging with `npm pack` and
+  a real install.
 
 ## Writing
 
