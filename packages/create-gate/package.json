@@ -1,6 +1,6 @@
 {
   "name": "@vibator/create-gate",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The wizard that sets the vibator gate up in a project",
   "license": "MIT",
   "author": "Josep Boix Requesens",
@@ -31,10 +31,10 @@
     "@clack/prompts": "^1.7.0"
   },
   "peerDependencies": {
-    "@vibator/biome": "^1.0.1",
-    "@vibator/depcruise": "^1.0.1",
-    "@vibator/gate": "^1.0.1",
-    "@vibator/knip": "^1.0.1",
+    "@vibator/biome": "^1.0.2",
+    "@vibator/depcruise": "^1.0.2",
+    "@vibator/gate": "^1.0.2",
+    "@vibator/knip": "^1.0.2",
     "@vibator/recommended": "^1.0.1",
     "vibator": "^2.1.0"
   },
