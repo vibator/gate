@@ -18,6 +18,7 @@
       "entry": ["src/cli.ts"],
       "project": ["src/**/*.ts"],
       "ignoreDependencies": [
+        "@semantic-release/exec",
         "@semantic-release/git",
         "semantic-release-monorepo"
       ]

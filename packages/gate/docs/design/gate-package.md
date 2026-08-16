@@ -10,7 +10,6 @@ tool presets of the gate and the way projects extend them.
 - [The tool presets](#the-tool-presets): Biome, dependency-cruiser, tsconfig.
 - [Using the presets](#using-the-presets): Thin project files that extend them.
 - [Dependency policy](#dependency-policy): Why the package depends on nothing.
-- [Differences from the published gate](#differences-from-the-published-gate): What changes.
 
 ---
 
@@ -132,12 +131,3 @@ read its files, and the tools resolve its exports.
   JavaScript API is not a stable contract, so only the pair the plugin was
   tested against is known to work; a project that must run a different tool
   version forces it with npm `overrides`.
-
-## Differences from the published gate
-
-| Published gate                                                 | This package                                                                              |
-|----------------------------------------------------------------|-------------------------------------------------------------------------------------------|
-| Ships a vibator rules preset alongside the tool presets.       | Presets only; the `@vibator/create-gate` wizard writes the project's `.vibator.json`.     |
-| Four tools run through four npm scripts, chained by `verify`.  | One `npx vibator` run covers every enabled tool through the `@vibator/*` plugins.         |
-| `max-file-size` at error, 400 kB.                              | Dropped.                                                                                  |
-| Biome, depcruise, and tsconfig presets.                        | Carried unchanged, exported under the same subpaths.                                      |

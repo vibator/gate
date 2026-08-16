@@ -1,9 +1,8 @@
 # `vibator.biome` namespace
 
 This document is the reference of the `biome` subnamespace as
-`@vibator/biome` registers it onto the shared `vibator` object.
-Importing the package (or `src/namespace/biome.ts` directly) performs the
-registration; rules then reach it as `vibator.biome`.
+`@vibator/biome` registers it onto the shared `vibator` object. Importing the
+package performs the registration; rules then reach it as `vibator.biome`.
 
 The subnamespace drives the Biome linter through its JavaScript SDK
 (`@biomejs/js-api`).
