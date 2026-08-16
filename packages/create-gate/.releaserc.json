@@ -6,6 +6,12 @@
     "@semantic-release/release-notes-generator",
     "@semantic-release/npm",
     [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "../../scripts/sync-peers.sh"
+      }
+    ],
+    [
       "@semantic-release/git",
       {
         "assets": ["package.json"],

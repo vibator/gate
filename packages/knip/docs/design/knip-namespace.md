@@ -1,9 +1,8 @@
 # `vibator.knip` namespace
 
 This document is the reference of the `knip` subnamespace as
-`@vibator/knip` registers it onto the shared `vibator` object.
-Importing the package (or `src/namespace/knip.ts` directly) performs the
-registration; rules then reach it as `vibator.knip`.
+`@vibator/knip` registers it onto the shared `vibator` object. Importing the
+package performs the registration; rules then reach it as `vibator.knip`.
 
 The subnamespace drives Knip through its programmatic API (`knip` and
 `knip/session`). Knip decides whether code is unused from the whole

@@ -6,10 +6,7 @@ wizard that sets the vibator gate up in a project.
 ## Reference
 
 - [What the package is](#what-the-package-is): One command, a configured project.
-- [The prompts](#the-prompts): What the wizard asks.
-- [The generated files](#the-generated-files): What each answer produces.
 - [Guards](#guards): What the wizard refuses.
-- [Layout](#layout): The modules and their roles.
 
 ---
 
@@ -35,11 +32,3 @@ files under `.vibator/`, in each tool's own language, extending the
 - A `tsconfig.json` already exists: the tsconfig prompt is skipped and the
   file is left alone.
 - A planned file already exists: the run stops before writing anything.
-
-## Layout
-
-| Module         | Role                                                              |
-|----------------|-------------------------------------------------------------------|
-| `src/plan.ts`  | Pure: turns the answers into the files and dependencies to write. |
-| `src/apply.ts` | Writes a plan to disk and edits `package.json`.                   |
-| `src/cli.ts`   | The binary: the `@clack/prompts` flow around `plan` and `apply`.  |

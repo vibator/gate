@@ -6,6 +6,12 @@
   "license": "MIT",
   "type": "module",
   "workspaces": [
+    "packages/biome",
+    "packages/depcruise",
+    "packages/knip",
+    "packages/recommended",
+    "packages/gate",
+    "packages/create-gate",
     "packages/*"
   ],
   "engines": {

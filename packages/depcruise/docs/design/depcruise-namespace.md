@@ -1,9 +1,9 @@
 # `vibator.depcruise` namespace
 
 This document is the reference of the `depcruise` subnamespace as
-`@vibator/depcruise` registers it onto the shared `vibator` object.
-Importing the package (or `src/namespace/depcruise.ts` directly) performs the
-registration; rules then reach it as `vibator.depcruise`.
+`@vibator/depcruise` registers it onto the shared `vibator` object. Importing
+the package performs the registration; rules then reach it as
+`vibator.depcruise`.
 
 The subnamespace drives dependency-cruiser through its JavaScript API
 (`cruise()`).
