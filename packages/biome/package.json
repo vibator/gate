@@ -28,7 +28,7 @@
   ],
   "dependencies": {
     "@biomejs/js-api": "^6.0.0",
-    "@biomejs/wasm-nodejs": "^2.5.7",
+    "@biomejs/wasm-nodejs": "^2.5.9",
     "zod": "^4.4.3"
   },
   "peerDependencies": {
