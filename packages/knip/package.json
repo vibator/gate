@@ -27,7 +27,7 @@
     "README.md"
   ],
   "dependencies": {
-    "knip": "^6.32.1",
+    "knip": "^6.32.2",
     "zod": "^4.4.3"
   },
   "peerDependencies": {
