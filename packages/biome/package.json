@@ -1,6 +1,6 @@
 {
   "name": "@vibator/biome",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Vibator plugin orchestrating the Biome linter through its JavaScript SDK",
   "license": "MIT",
   "author": "Josep Boix Requesens",
