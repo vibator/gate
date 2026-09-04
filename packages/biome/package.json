@@ -28,8 +28,8 @@
   ],
   "dependencies": {
     "@biomejs/js-api": "^6.0.0",
-    "@biomejs/wasm-nodejs": "^2.5.10",
-    "zod": "^4.4.3"
+    "@biomejs/wasm-nodejs": "^2.5.11",
+    "zod": "^4.5.4"
   },
   "peerDependencies": {
     "vibator": "^2.1.0"

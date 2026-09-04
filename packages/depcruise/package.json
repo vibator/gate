@@ -28,7 +28,7 @@
   ],
   "dependencies": {
     "dependency-cruiser": "^18.2.0",
-    "zod": "^4.4.3"
+    "zod": "^4.5.4"
   },
   "peerDependencies": {
     "vibator": "^2.1.0"
