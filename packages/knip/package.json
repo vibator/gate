@@ -27,8 +27,8 @@
     "README.md"
   ],
   "dependencies": {
-    "knip": "^6.32.2",
-    "zod": "^4.4.3"
+    "knip": "^6.34.0",
+    "zod": "^4.5.4"
   },
   "peerDependencies": {
     "vibator": "^2.1.0"
