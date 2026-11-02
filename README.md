@@ -1,5 +1,14 @@
 # Vibator Gate
 
+> [!WARNING]
+> This repository is archived and no longer maintained. The `@vibator/*`
+> packages are deprecated on npm.
+>
+> vibator 3 replaces the gate. It runs project rules from `.vibator/` instead of
+> wrapping Biome, Knip, and dependency-cruiser. See
+> [vibator](https://github.com/vibator/vibator) and
+> [vibator.dev](https://vibator.dev).
+
 [![Quality](https://github.com/vibator/gate/actions/workflows/quality.yml/badge.svg)](https://github.com/vibator/gate/actions/workflows/quality.yml)
 [![node](https://img.shields.io/node/v/@vibator/gate)](https://nodejs.org)
 [![license: MIT](https://img.shields.io/npm/l/@vibator/gate)](./LICENSE)
@@ -7,7 +16,26 @@
 This repository contains a collection of ready-to-use plugins and presets for
 [vibator](https://github.com/vibator/vibator).
 
+## Migrate to vibator 3
+
+1. Remove the gate packages:
+
+   ```sh
+   npm uninstall @vibator/gate @vibator/biome @vibator/knip @vibator/depcruise @vibator/recommended
+   ```
+
+2. Run Biome, Knip, and dependency-cruiser directly, with their own
+   configuration files and npm scripts.
+3. Install vibator and write a rule for each check those tools do not cover:
+
+   ```sh
+   npm install --save-dev vibator
+   npx vibator init
+   ```
+
 ## Quick start
+
+The commands below install deprecated packages.
 
 ```sh
 npx @vibator/create-gate
